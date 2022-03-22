@@ -1,7 +1,10 @@
 import React from "react"
 import { Image, ImageProps, Text, View } from "react-native";
-import { CommentIcon, FavoriteIcon, MessengerIcon, ProfileIcon, SaveIcon } from "../../../global/styles/icons";
+import { CommentIcon, FavoriteIcon, MessengerIcon, SaveIcon } from "../../../global/styles/icons";
 import { styles } from '../../../pages/Feed/styles';
+
+import { Photo } from "../../atoms/Photo";
+import { Header } from "../../molecules/Header";
 
 type Props = {
   cover: ImageProps;
@@ -17,34 +20,34 @@ type Props = {
   };
 }
 
-export const Post = ({ description, cover, lastLiked, likes }: Props) => (
-  <View style={styles.post}>
-    <View style={styles.postHeader}>
-      <Image source={ProfileIcon} style={styles.postAvatar} />
-      <View>
-        <Text style={styles.postUsername}>Rodrigo Gonçalves</Text>
-        <Text style={styles.postLocation}>Somewhere</Text>
-      </View>
-    </View>
+export const Post = ({
+    description,
+    cover,
+    lastLiked,
+    likes,
+    ...userData
+  }: Props) => (
+    <View style={styles.post}>
+      <Header {...userData} />
 
-    <Image source={cover} style={styles.cover} />
+      <Photo source={cover} style={styles.cover} />
 
-    <View style={styles.postFooter}>
-      <View style={styles.postOptions}>
-        <View style={styles.postOptionsSide}>
-          <FavoriteIcon style={styles.postOptionsIcon} />
-          <CommentIcon style={styles.postOptionsIcon} />
-          <MessengerIcon style={styles.postOptionsIcon} />
+      <View style={styles.postFooter}>
+        <View style={styles.postOptions}>
+          <View style={styles.postOptionsSide}>
+            <FavoriteIcon style={styles.postOptionsIcon} />
+            <CommentIcon style={styles.postOptionsIcon} />
+            <MessengerIcon style={styles.postOptionsIcon} />
+          </View>
+
+          <SaveIcon />
         </View>
 
-        <SaveIcon />
+        <View style={styles.postAbout}>
+          <Image source={lastLiked.avatar} style={styles.lastLiked} />
+          <Text style={styles.likes}>{likes}</Text>
+        </View>
+        <Text style={styles.description}>{description}</Text>
       </View>
-
-      <View style={styles.postAbout}>
-        <Image source={lastLiked.avatar} style={styles.lastLiked} />
-        <Text style={styles.likes}>{likes}</Text>
-      </View>
-      <Text style={styles.description}>{description}</Text>
     </View>
-  </View>
 );
